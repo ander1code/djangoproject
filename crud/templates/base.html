@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+      {% include 'partials/paths_before.html' %}
+      <title>CrudCar - Django</title>
+  </head>
+  <body>
+      {% include 'partials/header.html' %}
+      {% include 'partials/messages.html' %}
+          {% block content %}
+          {% endblock %}
+      {% include 'partials/paths_after.html' %}
+  </body>
+</html>

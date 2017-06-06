@@ -1,0 +1,77 @@
+{% extends 'base.html' %} <!-- Django -->
+{% block content %} <!-- Django -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Customer</h2>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <img class="img-responsive imgCustomer" src="{{customer.imageCustomer.url}}" alt="">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <label class="lblColor" for="gender">ID:&nbsp</label>{{customer.id}}
+                </div>
+                <div class="row">
+                    <label class="lblColor" for="name">Name:&nbsp</label>{{customer.name}}
+                </div>
+                <div class="row">
+                    <label class="lblColor" for="email">Email:&nbsp</label>{{customer.email}}
+                </div>
+                <div class="row">
+                    <label class="lblColor" for="salary">Salary:&nbsp</label>{{customer.salary}}
+                </div>
+                <div class="row">
+                    <label class="lblColor" for="birthday">Birthday:&nbsp</label>{{customer.birthday |date:"d/m/Y" }}
+                </div>
+                <div class="row">
+                    <label class="lblColor" for="gender">Gender:&nbsp</label>{{customer.gender}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-warning col-md-1 pull-right" href="{% url 'crud.views.edit_customer' id=customer.id %}">Edit</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <hr>
+        <h3>Car's List</h3>
+    </div>
+    <div class="responsive">
+        <table class="table">
+            <tr>
+                <th class="lblColor">MODEL</th>
+                <th class="text-center lblColor">YEAR</th>
+                <th class="text-center lblColor">SELECTION</th>
+            </tr>
+            {% for car in cars %}
+            <tr>
+                <td>{{car.model}}</td>
+                <td class="text-center">{{car.yearCar}}</td>
+                <td class="text-center"><a href="{% url 'crud.views.show_car' idcust=customer.id idcar=car.id %}"><img
+                        class="imgSel" src="{{STATIC_URL}}img/select.png" alt=""></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div>
+      <span>
+      {% if cars.has_previous %}
+      <a href="?page={{ cars.previous_page_number }}">previous</a>
+      {% endif %}
+      <span>
+      Page {{ cars.number }} of {{ cars.paginator.num_pages }}.
+      </span>
+      {% if cars.has_next %}
+      <a href="?page={{ cars.next_page_number }}">next</a>
+      {% endif %}
+      </span>
+        </div>
+        <a href="{% url 'crud.views.list_customer' %}" class="col-sm-offset-10 btn btn-info col-md-1">Cancel</a>
+        <a href="{% url 'crud.views.create_car' idcust=customer.id %}" class=" btn btn-success col-md-1">Create</a>
+    </div>
+</div>
+{% endblock %}

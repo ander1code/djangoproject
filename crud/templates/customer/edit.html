@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <h1>Customer's Edition</h1>
+                </div>
+                {% if form.errors %}
+                <div class="form-group divErrorCreate">
+                    <div>
+                        <ol>
+                            <ul>{{form.name.errors}}</ul>
+                            <ul>{{form.email.errors}}</ul>
+                            <ul>{{form.salary.errors}}</ul>
+                            <ul>{{form.birthday.errors}}</ul>
+                            <ul>{{form.gender.errors}}</ul>
+                        </ol>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input id="id_name" class="form-control" value="{{form.name.value}}" maxlength="100" name="name"
+                           type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="id_email" class="form-control" value="{{form.email.value}}" maxlength="75" name="email"
+                           type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="salary">Salary</label>
+                    <input id="id_salary" class="form-control" value="{{form.salary.value}}" name="salary" type="text"
+                           value="0.00"/>
+                </div>
+                <div class="form-group">
+                    <label for="birthday">Birthday</label>
+                    <div class="input-group date form_date" data-date="1979-09-16T05:25:07Z"
+                         data-date-format="dd/mm/yyyy" data-link-field="dtp_input1">
+                        <input id="id_birthday" value="{{form.birthday.value}}" class="form-control" name="birthday"
+                               readonly="True" type="text" value=""/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                    <input type="hidden" id="dtp_input1" value=""/>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="id_gender" class="form-control" name="gender">
+                        <option value="M" selected="selected">MALE</option>
+                        <option value="F">FEMALE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Current Photo:</label>
+                    <label><a href="/media/{{form.imageCustomer.value}}">{{form.imageCustomer.value}}</a></label>
+                </div>
+                <div class="form-group">
+                    <label for="imageCustomer">Photo</label>
+                    <input id="id_imageCustomer" class="form-control" name="imageCustomer" type="file"/>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="col-sm-offset-6 btn btn-danger col-md-2" data-toggle="modal"
+                            data-target="#myModal">Delete
+                    </button>
+                    <a href="{% url 'crud.views.list_customer' %}"
+                       class="btn btn-info col-md-2">Cancel</a>
+                    <a href="#" class="btn btn-warning col-md-2" data-toggle="modal" data-target="#confirmEdit">Edit</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmEdit" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Question</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to edit Customer?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-warning">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Question</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to delete Customer?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a class="btn btn-danger" href="{% url 'crud.views.delete_customer' id=customer.id %}">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    {% endblock %}
+</div>

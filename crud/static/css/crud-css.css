@@ -1,0 +1,62 @@
+.divErrorCreate {
+    background-color: #d9d4c1;
+    color: red;
+    border-radius: 10px;
+    border: 3px solid red;
+}
+.customer {
+    background-color: #787878;
+    font-weight: bold;
+}
+.divErrorCreate {
+    background-color: #d9d4c1;
+    color: red;
+    border-radius: 10px;
+    border: 3px solid red;
+}
+.imgSel {
+    width: 25px;
+}
+.imgCustomer {
+    max-height: 300px;
+    max-width: 300px;
+    border: 5px solid black;
+    border-radius: 7px;
+}
+.imgCatalog {
+    height: 200px;
+    border: 3px solid black;
+}
+.deleteQuestion {
+    color: red;
+}
+.divError {
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    border: 3px solid white;
+}
+.title {
+    color: #44B78B;
+    font-weight: bold;
+}
+.logod {
+    width: 300px;
+}
+.logop {
+    width: 150px;
+}
+.logos {
+    width: 150px;
+    border-radius: 10px;
+}
+.logob {
+    width: 120px;
+}
+.imgCatg {
+    width: 300px;
+    height: 200px;
+}
+.lblColor {
+    color: #00bc8c;
+}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <h1>Car</h1>
+                </div>
+                <div class="form-group">
+                    <h3>Customer's data:</h3>
+                    <hr>
+                </div>
+                <div class="form-group">
+                    <label for="id_customer">ID</label>
+                    <input type="text" id="id_customer" class="form-control customer" name="customer"
+                           value="{{customer.id}}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="plate">Name</label>
+                    <input type="text" id="id_name" class="form-control customer" name="name" value="{{customer.name}}"
+                           readonly>
+                </div>
+                <div class="form-group">
+                    <hr>
+                    <h3>Car's data:</h3>
+                </div>
+                {% if form.errors %}
+                <div class="form-group divErrorCreate">
+                    <div>
+                        <ol>
+                            <ul>{{form.model.errors}}</ul>
+                            <ul>{{form.plate.errors}}</ul>
+                            <ul>{{form.yearCar.errors}}</ul>
+                            <ul>{{form.marketVal.errors}}</ul>
+                            <ul>{{form.imageCar.errors}}</ul>
+                        </ol>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input id="id_model" class="form-control car" value="{{form.model.value}}" maxlength="100"
+                           name="model" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="plate">Plate</label>
+                    <input id="id_plate" class="form-control car" value="{{form.plate.value}}" maxlength="7"
+                           name="plate" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="yearCar">Year</label>
+                    <input id="id_yearCar" class="form-control car" value="{{form.yearCar.value}}" name="yearCar"
+                           type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="marketVal">Market's Value</label>
+                    <input id="id_marketVal" class="form-control car" value="{{form.marketVal.value}}" name="marketVal"
+                           type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <!-- <input id="id_description" class="form-control"  maxlength="200" name="" type="text" /> -->
+                    <textarea cols="30" rows="3" id="id_description car" value="{{form.description.value}}"
+                              class="form-control" maxlength="200" name="description" type="text"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="imageCar">Image</label>
+                    <input id="id_imageCar" class="form-control car" value="{{form.imageCar.url}}" name="imageCar"
+                           type="file"/>
+                </div>
+                <div class="form-group">
+                    <a class="col-sm-offset-8 btn btn-info col-md-2"
+                       href="{% url 'crud.views.show_customer' id=customer.id %}">Cancel</a>
+                    <button type="submit" class="btn btn-success col-md-2">Create</button>
+                </div>
+            </div>
+        </div>
+        <script>
+      if($(".car").val() == "None")
+      {
+          $(".car").val();
+      }
+
+
+        </script>
+    </form>
+</div>
+{% endblock %}

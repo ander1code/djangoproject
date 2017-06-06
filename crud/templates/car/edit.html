@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+<form method="post" enctype="multipart/form-data">
+   {% csrf_token %}
+   <div class="row">
+      <div class="col-md-8">
+            <div class="form-group">
+               <h1>Car's Edition</h1>
+            </div>
+            <div class="form-group">
+               <h3>Customer's data:</h3>
+               <hr>
+            </div>
+            <div class="form-group">
+               <label for="id_customer">ID</label>
+               <input type="text" id="id_customer" class="form-control customer" name="customer" value="{{customer.id}}" readonly>
+            </div>
+            <div class="form-group">
+               <label for="plate">Name</label>
+               <input type="text" id="id_name" class="form-control customer" name="name" value="{{customer.name}}" readonly>
+            </div>
+            <div class="form-group">
+               <hr>
+               <h3>Car's data:</h3>
+            </div>
+            {% if form.errors %}
+            <div class="form-group divErrorCreate">
+               <div>
+                  <ol>
+                     <ul>{{form.model.errors}}</ul>
+                     <ul>{{form.plate.errors}}</ul>
+                     <ul>{{form.yearCar.errors}}</ul>
+                     <ul>{{form.marketVal.errors}}</ul>
+                     <ul>{{form.imageCar.errors}}</ul>
+                  </ol>
+               </div>
+            </div>
+            {% endif %}    
+            <div class="form-group">
+               <label for="model">Model</label>
+               <input id="id_model" class="form-control car" value="{{form.model.value}}" maxlength="100" name="model" type="text" />
+            </div>
+            <div class="form-group">
+               <label for="plate">Plate</label>
+               <input id="id_plate" class="form-control car"  value="{{form.plate.value}}"  maxlength="7" name="plate" type="text" />
+            </div>
+            <div class="form-group">
+               <label for="yearCar">Year</label>
+               <input id="id_yearCar" class="form-control car"   value="{{form.yearCar.value}}" name="yearCar" type="text" />
+            </div>
+            <div class="form-group">
+               <label for="marketVal">Market's Value</label>
+               <input id="id_marketVal" class="form-control car"  value="{{form.marketVal.value}}"  name="marketVal" type="text" />
+            </div>
+            <div class="form-group">
+               <label for="description">Description</label>
+               <input id="id_description" class="form-control"  maxlength="200" name="description" type="text" value="Description." />
+            </div>
+            <div class="form-group">
+               <label>Current Image:</label>
+               <label><a href="/media/{{form.imageCar.value}}">{{form.imageCar.value}}</a></label>
+            </div>
+            <div class="form-group">
+               <label for="imageCar">Image</label>
+               <input id="id_imageCar" class="form-control" name="imageCar" type="file" />
+            </div>
+            <div class="form-group">
+               <button type="button" class="col-sm-offset-6 btn btn-danger col-md-2" data-toggle="modal" data-target="#confirmDelete">Delete</button>
+               <a href="{% url 'crud.views.list_customer' %}" class="btn btn-info col-md-2">Cancel</a>
+               <a href="#" class="btn btn-warning col-md-2" data-toggle="modal" data-target="#confirmEdit">Edit</a>
+            </div>
+      </div>
+   </div>
+   <script>
+      if($(".car").val() == "None")
+      {
+          $(".car").val("");
+      }
+   </script>
+
+     <div id="confirmEdit" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Question</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to edit Customer?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-warning">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmDelete" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Question</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to delete Customer?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a class="btn btn-danger" href="{% url 'crud.views.delete_car' idcust=customer.id idcar=car.id %}">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</form>
+</div>
+
+
+
+
+
+
+{% endblock %}

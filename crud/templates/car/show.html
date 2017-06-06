@@ -1,0 +1,60 @@
+{% extends 'base.html' %} <!-- Django -->
+{% block content %} <!-- Django -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Details's Car</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <a href="{{car.imageCar.url}}"><img class="img-responsive imgCustomer" src="{{car.imageCar.url}}" alt=""></a>
+                <img src="" alt=""><br>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <h4 class="title">Car's Data:</h4>
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="id">ID: &nbsp</label>{{car.id}}
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="model">Model: &nbsp</label>{{car.model}}
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="plate">Plate: &nbsp</label>{{car.plate}}
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="yearCar">Market's Value: &nbsp</label>{{car.yearCar}}
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="birthday">Description: &nbsp</label>{{car.description}}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <h4 class="title">Customer's Data:</h4>
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="name">ID: &nbsp</label>{{customer.id}}<br>
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="name">Name: &nbsp</label>{{customer.name}}<br>
+            </div>
+            <div class="row">
+                <label class="col-sm-offset-1" for="email">Email: &nbsp</label>{{customer.email}}<br>
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="row col-md-12">
+        <a class="btn btn-warning col-md-1 pull-right"
+           href="{% url 'crud.views.edit_car' idcust=customer.id  idcar=car.id %}">EDIT</a>
+    </div>
+    {%endif%}
+{% endblock %}
+</div>
