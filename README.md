@@ -1,4 +1,4 @@
-# Crud-Django
+# Crudcar-Django
 
 1. Description:
 - Prototype of a CRUD developed using Django and SQLite database.
