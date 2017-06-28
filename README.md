@@ -11,7 +11,7 @@
 
 2.  Software  used for development:
 - Python version 2.7.13
-- Django version 1.5.12
+- Django version 1.11.2
 - JetBrains PyCharm Community Edition 2017.1 x64 
 - SQLite 3
 - Bootstrap 3.3.7
