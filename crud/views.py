@@ -1,13 +1,15 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect , render , get_object_or_404 , get_list_or_404
 from django.core.paginator import Paginator , EmptyPage , PageNotAnInteger
-from .forms import *
-from .models import *
+from . import *
 from django.contrib import messages
 
 # Authentication
 from django.contrib.auth import login , logout , authenticate
 from django.contrib.auth.decorators import login_required
+from .models import *
+from .forms import *
+from django.urls import reverse
 
 
 def home(request):
@@ -39,11 +41,11 @@ def do_login(request):
         if user is not None:
             login ( request , user )
             messages.success ( request , 'User logged in successfully.' )
-            return render ( request , 'home.html' )
+            return render ( request , 'home.html')
         else:
             messages.error ( request , "User and password don't match." )
-    return HttpResponseRedirect ( request , 'crud.views.home' )
-
+    return render ( request , 'home.html')
+    
 
 @login_required ( login_url="/login/" )
 def list_customer(request):
@@ -62,6 +64,7 @@ def list_customer(request):
 
     else:
         customers = Customer.objects.all ( )
+        print customers
         paginator = Paginator ( customers , 10 )
         page = request.GET.get ( 'page' )
         try:
@@ -91,7 +94,11 @@ def create_customer(request):
             messages.success ( request , 'Customer registered successfully.' )
             return HttpResponseRedirect ( 'crud.views.list_customer' )
         else:
-            print form
+            print request.POST['name']
+            print request.POST['email']
+            print request.POST['birthday']
+            print request.POST['gender']
+            print request.POST['salary']
             return render ( request , 'customer/create.html' , {'form': form} )
     else:
         form = CustomerForm ( )
@@ -112,27 +119,23 @@ def edit_customer(request , id):
             customer.birthday = birthday
             customer.gender = form.cleaned_data.get ( 'gender' )
             customer.imageCustomer = form.cleaned_data.get ( 'imageCustomer' )
-
             customer.save ( )
-
             if customer.gender == 'M':
                 customer.gender = 'Male'
             else:
                 customer.gender = 'Female'
 
             messages.success ( request , 'Customer edited successfully.' )
-
-            return render ( request , 'customer/show.html' , {'customer': customer} )
+            return HttpResponseRedirect(reverse('show_customer', args=(id,)))
     else:
         form = CustomerForm ( initial={'id': customer.id ,
                                        'name': customer.name ,
                                        'email': customer.email ,
                                        'salary': customer.salary ,
                                        'birthday': datetime.datetime.strptime ( str ( customer.birthday ) ,
-                                                                                '%Y-%m-%d' ).strftime ( '%d/%m/%y' ) ,
+                                                                                '%Y-%m-%d' ).strftime ( '%d/%m/%Y' ) ,
                                        'gender': customer.gender ,
                                        'imageCustomer': customer.imageCustomer} )
-
     return render ( request , 'customer/edit.html' , {'form': form, 'customer':customer} )
 
 
@@ -191,13 +194,13 @@ def create_car(request , idcust):
             car.imageCar = form.cleaned_data.get ( 'imageCar' )
             car.save ( )
             messages.success ( request , 'Car registered successfully.' )
-            return HttpResponseRedirect ( 'crud.views.show_customer' , form.cleaned_data.get ( 'id' ) )
+            return HttpResponseRedirect(reverse('show_customer', args=(idcust,)))
         else:
             customer = get_object_or_404 ( Customer , id=idcust )
             return render ( request , 'car/create.html' , {'form': form , 'customer': customer} )
     else:
         customer = get_object_or_404 ( Customer , id=idcust )
-        form = CarForm ( )
+        form = CarForm (initial={'model': '', 'marketVal': '0.00', 'description':'' })
     return render ( request , 'car/create.html' , {'form': form , 'customer': customer} )
 
 
@@ -221,7 +224,7 @@ def edit_car(request , idcust , idcar):
 
             car.save ( )
             messages.success ( request , 'Car edited successfully.' )
-            return HttpResponseRedirect ( 'crud.views.show_customer' , form.cleaned_data.get ( 'id' ) )
+            return HttpResponseRedirect(reverse('show_customer', args=(idcust,)))
         else:
             customer = get_object_or_404 ( Customer , id=idcust )
             return render ( request , 'car/create.html' , {'form': form , 'customer': customer} )
@@ -251,7 +254,8 @@ def delete_car(request , idcust , idcar):
     car = get_object_or_404 ( Car , id=idcar )
     car.delete ( )
     messages.success ( request , 'Car deleted successfully.' )
-    return HttpResponseRedirect ( 'crud.views.show_customer' , car.customer_id )
+    return HttpResponseRedirect(reverse('show_customer', args=(car.customer_id,)))
+        
 
 
 @login_required ( login_url="/login/" )

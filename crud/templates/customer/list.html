@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -36,8 +37,8 @@
                 <td class="text-center">{{customer.id}}</td>
                 <td>{{customer.name}}</td>
                 <td class="text-center">{{customer.birthday |date:"d/m/Y" }}</td>
-                <td class="text-center"><a href="{% url 'crud.views.show_customer' id=customer.id %}"><img
-                        src="{{STATIC_URL}}img/select.png" class="imgSel"></a>
+                <td class="text-center"><a href="{% url 'show_customer' id=customer.id %}"><img
+                        src="{% static 'img/select.png' %}" class="imgSel"></a>
                 </td>
             </tr>
             {% endfor %}
@@ -58,7 +59,7 @@
             </span>
         </div>
     </div>
-    <a href="{% url 'crud.views.create_customer' %}" class="col-sm-offset-11 btn btn-success col-md-1">Create</a>
+    <a href="{% url 'create_customer' %}" class="col-sm-offset-11 btn btn-success col-md-1">Create</a>
     {% endblock %}
 </div>
 </div>

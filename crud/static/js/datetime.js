@@ -1,4 +1,11 @@
-$('.form_datetime').datetimepicker({
-	format: 'dd/mm/yyyy',
-	initialDate: '27/04/1999'
+$.fn.datepicker.defaults.format = "dd/mm/yyyy";
+
+$('.date-create').datepicker({
+  format: 'dd/mm/yyyy',
+  endDate: "-18y"
+});
+
+$('.date-edit').datepicker({
+  format: 'dd/mm/yyyy',
+  endDate: "-18y"
 });

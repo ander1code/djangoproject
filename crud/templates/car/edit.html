@@ -52,11 +52,12 @@
             </div>
             <div class="form-group">
                <label for="marketVal">Market's Value</label>
-               <input id="id_marketVal" class="form-control car"  value="{{form.marketVal.value}}"  name="marketVal" type="text" />
+               <input id="id_marketVal" class="form-control car currency"  value="{{form.marketVal.value}}"  name="marketVal" type="text" />
             </div>
             <div class="form-group">
-               <label for="description">Description</label>
-               <input id="id_description" class="form-control"  maxlength="200" name="description" type="text" value="Description." />
+                    <label for="description">Description</label>
+                    <textarea cols="30" rows="3" id="id_description car"
+                              class="form-control" maxlength="200" name="description" type="text">{{form.description.value}}</textarea>
             </div>
             <div class="form-group">
                <label>Current Image:</label>
@@ -68,7 +69,7 @@
             </div>
             <div class="form-group">
                <button type="button" class="col-sm-offset-6 btn btn-danger col-md-2" data-toggle="modal" data-target="#confirmDelete">Delete</button>
-               <a href="{% url 'crud.views.list_customer' %}" class="btn btn-info col-md-2">Cancel</a>
+               <a href="{% url 'list_customer' %}" class="btn btn-info col-md-2">Cancel</a>
                <a href="#" class="btn btn-warning col-md-2" data-toggle="modal" data-target="#confirmEdit">Edit</a>
             </div>
       </div>
@@ -110,7 +111,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <a class="btn btn-danger" href="{% url 'crud.views.delete_car' idcust=customer.id idcar=car.id %}">Yes</a>
+                        <a class="btn btn-danger" href="{% url 'delete_car' idcust=customer.id idcar=car.id %}">Yes</a>
                     </div>
                 </div>
             </div>

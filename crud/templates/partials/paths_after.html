@@ -1,4 +1,13 @@
-<script type="text/javascript" src="{{STATIC_URL}}js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/bootstrap-datetimepicker.pt-BR.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/datetime.js"></script>
-<link rel="stylesheet" href="{{STATIC_URL}}css/crud-css.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.standalone.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.standalone.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker3.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker3.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker3.standalone.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker3.standalone.min.css' %}">
+<script type="text/javascript" src="{% static 'js/datetime.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/currency.js' %}"></script>
+
+
