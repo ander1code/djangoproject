@@ -51,19 +51,18 @@
                 </div>
                 <div class="form-group">
                     <label for="yearCar">Year</label>
-                    <input id="id_yearCar" class="form-control car" value="{{form.yearCar.value}}" name="yearCar"
+                    <input id="id_yearCar" maxlength="4" class="form-control car" value="{{form.yearCar.value}}" name="yearCar"
                            type="text"/>
                 </div>
                 <div class="form-group">
                     <label for="marketVal">Market's Value</label>
-                    <input id="id_marketVal" class="form-control car" value="{{form.marketVal.value}}" name="marketVal"
+                    <input id="id_marketVal" class="form-control car currency" value="{{form.marketVal.value}}" name="marketVal"
                            type="text"/>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <!-- <input id="id_description" class="form-control"  maxlength="200" name="" type="text" /> -->
-                    <textarea cols="30" rows="3" id="id_description car" value="{{form.description.value}}"
-                              class="form-control" maxlength="200" name="description" type="text"></textarea>
+                    <textarea cols="30" rows="3" id="id_description car"
+                              class="form-control" maxlength="200" name="description" type="text">{{form.description.value}}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="imageCar">Image</label>
@@ -72,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <a class="col-sm-offset-8 btn btn-info col-md-2"
-                       href="{% url 'crud.views.show_customer' id=customer.id %}">Cancel</a>
+                       href="{% url 'show_customer' id=customer.id %}">Cancel</a>
                     <button type="submit" class="btn btn-success col-md-2">Create</button>
                 </div>
             </div>

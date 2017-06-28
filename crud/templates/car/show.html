@@ -19,9 +19,11 @@
             <div class="row">
                 <h4 class="title">Car's Data:</h4>
             </div>
-            <div class="row">
-                <label class="col-sm-offset-1" for="id">ID: &nbsp</label>{{car.id}}
-            </div>
+            {% if user.is_authenticated %}
+                <div class="row">
+                    <label class="col-sm-offset-1" for="id">ID: &nbsp</label>{{car.id}}
+                </div>
+            {%endif%}
             <div class="row">
                 <label class="col-sm-offset-1" for="model">Model: &nbsp</label>{{car.model}}
             </div>
@@ -39,9 +41,11 @@
             <div class="row">
                 <h4 class="title">Customer's Data:</h4>
             </div>
-            <div class="row">
-                <label class="col-sm-offset-1" for="name">ID: &nbsp</label>{{customer.id}}<br>
-            </div>
+            {% if user.is_authenticated %}
+                <div class="row">
+                    <label class="col-sm-offset-1" for="name">ID: &nbsp</label>{{customer.id}}<br>
+                </div>
+            {%endif%}
             <div class="row">
                 <label class="col-sm-offset-1" for="name">Name: &nbsp</label>{{customer.name}}<br>
             </div>
@@ -53,7 +57,7 @@
     {% if user.is_authenticated %}
     <div class="row col-md-12">
         <a class="btn btn-warning col-md-1 pull-right"
-           href="{% url 'crud.views.edit_car' idcust=customer.id  idcar=car.id %}">EDIT</a>
+           href="{% url 'edit_car' idcust=customer.id  idcar=car.id %}">EDIT</a>
     </div>
     {%endif%}
 {% endblock %}

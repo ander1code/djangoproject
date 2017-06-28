@@ -21,7 +21,7 @@ class Car(models.Model):
     customer = models.ForeignKey ( Customer , on_delete=models.CASCADE )
     model = models.CharField ( max_length=100, default="")
     plate = models.CharField ( max_length=7, unique=True, default="")
-    yearCar = models.IntegerField (max_length=4, default="")
+    yearCar = models.IntegerField (default="")
     marketVal = models.DecimalField(max_digits=12,decimal_places=2,default=Decimal('0.00'))
     imageCar = models.ImageField ( upload_to='media' , blank=True , null=True , default='no_image.png' )
     description = models.CharField(max_length=200, default="")

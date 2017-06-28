@@ -10,11 +10,9 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
          <ul class="nav navbar-nav">
-            <li><a href="{% url 'crud.views.home' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-            <li><a href="{% url 'crud.views.do_Catalog' %}"><span class="glyphicon glyphicon-edit"></span> Catalog</a></li>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'crud.views.list_customer' %}"><span class="glyphicon glyphicon-user"></span>  Customers</a></li>
-            {%endif%}
+            <li><a href="{% url 'home' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+            <li><a href="{% url 'do_Catalog' %}"><span class="glyphicon glyphicon-edit"></span> Catalog</a></li>
+            <li><a href="{% url 'list_customer' %}"><span class="glyphicon glyphicon-user"></span>  Customers</a></li>
          </ul>
          <ul class="nav navbar-nav navbar-right">
             <li>

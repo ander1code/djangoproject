@@ -1,43 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="responsive">
-        <h1>Cars Catalog</h1>
-        <div class="row">
-            <table class="table">
-                {% for car in cars %}
-                <tr>
-                    <td>
-                        <div class="col-md-4">
-                            <img class="img-responsive imgCatg" src="{{car.imageCar.url}}">
-                        </div>
-                        <div class="col-md-4">
-                            <h3>{{car.model}}</h3>
-                            <h5>{{car.yearCar}}</h5>
-                            <p>{{car.marketVal}}</p>
-                        </div>
-                        <div class="col-md-4">
-                            <a class="btn btn-info pull-right" href="{% url 'crud.views.show_car' idcust=car.customer_id idcar=car.id %}">MORE</a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            <tfoot>
-            <hr>
-            <span>
-         {% if cars.has_previous %}
-         <a href="?page={{ cars.previous_page_number }}">previous</a>
-         {% endif %}
-         <span>
-         Page {{ cars.number }} of {{ cars.paginator.num_pages }}
-         </span>
-         {% if cars.has_next %}
-         <a href="?page={{ cars.next_page_number }}">next</a>
-         {% endif %}
-         </span>
-            </tfoot>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Cars Catalog</h1>
         </div>
+    </div>
+    <div class="row">
+         {% for car in cars %}
+                <a href="{% url 'show_car' idcust=car.customer_id idcar=car.id %}">
+                    <div class="col-md-3 font-text div-col">
+                        <img class="img-responsive imgCatg img-catalog img-responsive" src="{{car.imageCar.url}}">
+                        <div class="row">
+                            <div class="col-md-6 text-left">
+                                <b>Model: </b>{{car.model}}
+                            </div>
+                            <div class="col-md-6">
+                                <b>Year: </b>{{car.yearCar}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>Price: </b>{{car.marketVal}}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+         {% endfor %}
+    </div>
+    <div class="row">
+         <div class="col-md-12">
+             <div class="pull-right">   
+                 {% if cars.has_previous %}
+                    <a href="?page={{ cars.previous_page_number }}">previous</a>
+                 {% endif %}
+                 <span>
+                 Page {{ cars.number }} of {{ cars.paginator.num_pages }}
+                 </span>
+                 {% if cars.has_next %}
+                    <a href="?page={{ cars.next_page_number }}">next</a>
+                 {% endif %}
+             </div>
+         </div>
     </div>
 </div>
 {% endblock %}
+
+
+

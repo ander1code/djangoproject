@@ -1,5 +1,7 @@
-{% extends 'base.html' %} <!-- Django -->
-{% block content %} <!-- Django -->
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -33,7 +35,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a class="btn btn-warning col-md-1 pull-right" href="{% url 'crud.views.edit_customer' id=customer.id %}">Edit</a>
+            <a class="btn btn-warning col-md-1 pull-right" href="{% url 'edit_customer' id=customer.id %}">Edit</a>
         </div>
     </div>
 
@@ -52,8 +54,8 @@
             <tr>
                 <td>{{car.model}}</td>
                 <td class="text-center">{{car.yearCar}}</td>
-                <td class="text-center"><a href="{% url 'crud.views.show_car' idcust=customer.id idcar=car.id %}"><img
-                        class="imgSel" src="{{STATIC_URL}}img/select.png" alt=""></a></td>
+                <td class="text-center"><a href="{% url 'show_car' idcust=customer.id idcar=car.id %}"><img
+                        class="imgSel" src="{% static 'img/select.png' %}"></a></td>
             </tr>
             {% endfor %}
         </table>
@@ -70,8 +72,8 @@
       {% endif %}
       </span>
         </div>
-        <a href="{% url 'crud.views.list_customer' %}" class="col-sm-offset-10 btn btn-info col-md-1">Cancel</a>
-        <a href="{% url 'crud.views.create_car' idcust=customer.id %}" class=" btn btn-success col-md-1">Create</a>
+        <a href="{% url 'list_customer' %}" class="col-sm-offset-10 btn btn-info col-md-1">Cancel</a>
+        <a href="{% url 'create_car' idcust=customer.id %}" class=" btn btn-success col-md-1">Create</a>
     </div>
 </div>
 {% endblock %}
