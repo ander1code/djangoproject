@@ -8,7 +8,7 @@ from crud import views
 admin.autodiscover()
 
 urlpatterns = [
-	  url(r'^crud/', include('crud.urls')),
+	url(r'^crud/', include('crud.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, {'template_name':'user/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/crud'}, name='logout'),
