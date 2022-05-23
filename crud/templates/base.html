@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 <html lang="en">
   <head>
       {% include 'partials/paths_before.html' %}
       <title>CrudCar - Django</title>
+      <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}" />
   </head>
   <body>
       {% include 'partials/header.html' %}

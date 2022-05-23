@@ -13,6 +13,7 @@ from django.urls import reverse
 
 
 def home(request):
+    print('Home')
     return render ( request , 'home.html' )
 
 
@@ -22,7 +23,27 @@ def show_car(request , idcust , idcar):
     return render ( request , 'car/show.html' , {'customer': customer , 'car': car} )
 
 
+def do_login(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+             messages.info ( request , "User already logged in." )
+             return render ( request , 'home.html')
+        else:
+            return render ( request , 'user/login.html')
+
+    if request.method == 'POST':
+        user = authenticate ( username=request.POST.get ( 'username' ) , password=request.POST.get ( 'password' ) )
+        if user is not None:
+            login ( request , user )
+            messages.success ( request , 'User logged in successfully.' )
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            messages.error ( request , "User and password don't match." )
+            return render ( request , 'home.html')
+
+
 def do_Catalog(request):
+    print('Home')
     cars = Car.objects.all ( )
     paginator = Paginator ( cars , 7 )
     page = request.GET.get ( 'page' )
@@ -34,18 +55,6 @@ def do_Catalog(request):
         cars = paginator.page ( paginator.num_pages )
     return render ( request , 'car/catalog.html' , {'cars': cars} )
 
-
-def do_login(request):
-    if request.method == 'POST':
-        user = authenticate ( username=request.POST.get ( 'username' ) , password=request.POST.get ( 'password' ) )
-        if user is not None:
-            login ( request , user )
-            messages.success ( request , 'User logged in successfully.' )
-            return render ( request , 'home.html')
-        else:
-            messages.error ( request , "User and password don't match." )
-    return render ( request , 'home.html')
-    
 
 @login_required ( login_url="/login/" )
 def list_customer(request):
@@ -64,7 +73,6 @@ def list_customer(request):
 
     else:
         customers = Customer.objects.all ( )
-        print customers
         paginator = Paginator ( customers , 10 )
         page = request.GET.get ( 'page' )
         try:
@@ -81,7 +89,6 @@ def create_customer(request):
     if request.method == 'POST':
         form = CustomerForm ( request.POST , request.FILES )
         if form.is_valid ( ):
-            print 'Valido'
             customer = form.save ( commit=False )
             customer.name = form.cleaned_data.get ( 'name' )
             customer.email = form.cleaned_data.get ( 'email' )
@@ -92,13 +99,9 @@ def create_customer(request):
             customer.imageCustomer = form.cleaned_data.get ( 'imageCustomer' )
             customer.save ( )
             messages.success ( request , 'Customer registered successfully.' )
-            return HttpResponseRedirect ( 'crud.views.list_customer' )
+            # return HttpResponseRedirect ( 'crud.views.list_customer' )
+            return HttpResponseRedirect(reverse('list_customer'))
         else:
-            print request.POST['name']
-            print request.POST['email']
-            print request.POST['birthday']
-            print request.POST['gender']
-            print request.POST['salary']
             return render ( request , 'customer/create.html' , {'form': form} )
     else:
         form = CustomerForm ( )
@@ -141,9 +144,7 @@ def edit_customer(request , id):
 
 @login_required ( login_url="/login/" )
 def delete_customer_confirmation(request , id):
-    print id
     customer = get_object_or_404 ( Customer , id=id )
-    print customer
     return render ( request , 'customer/confirmation.html' , {'customer': customer} )
 
 
@@ -155,8 +156,7 @@ def delete_customer(request , id):
         messages.success ( request , 'Customer deleted successfully.' )
     else:
         messages.error ( request , 'Client has registered cars and can not be excluded.' )
-        # return render(request , 'customer/show.html' , {'id': id})
-    return redirect ( 'crud.views.list_customer' )
+    return HttpResponseRedirect(reverse('list_customer'))
 
 
 @login_required ( login_url="/login/" )
@@ -218,10 +218,6 @@ def edit_car(request , idcust , idcar):
             car.marketVal = form.cleaned_data.get ( 'marketVal' )
             car.description = form.cleaned_data.get ( 'description' )
             car.imageCar = form.cleaned_data.get ( 'imageCar' )
-
-            print 'imageCar: '
-            print car.imageCar
-
             car.save ( )
             messages.success ( request , 'Car edited successfully.' )
             return HttpResponseRedirect(reverse('show_customer', args=(idcust,)))
@@ -238,7 +234,6 @@ def edit_car(request , idcust , idcar):
             'description': car.description ,
             'imageCar': car.imageCar ,
         } )
-        print car
     return render ( request , 'car/edit.html' , {'form': form , 'customer': customer, 'car':car} )
 
 
@@ -255,7 +250,6 @@ def delete_car(request , idcust , idcar):
     car.delete ( )
     messages.success ( request , 'Car deleted successfully.' )
     return HttpResponseRedirect(reverse('show_customer', args=(car.customer_id,)))
-        
 
 
 @login_required ( login_url="/login/" )
