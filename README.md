@@ -10,8 +10,8 @@
 - It has administrative interface (Superuser).
 
 2.  Software  used for development:
-- Python version 2.7.13
-- Django version 1.11.2
-- JetBrains PyCharm Community Edition 2017.1 x64 
+- Python version 3.10.4
+- Django version 4.0.4
+- Visual Studio Code 1.67.2
 - SQLite 3
 - Bootstrap 3.3.7
