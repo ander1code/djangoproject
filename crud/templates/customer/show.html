@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% block content %}
 {% load static %}
 
@@ -8,7 +8,7 @@
             <h2>Customer</h2>
             <div class="col-md-4">
                 <div class="form-group">
-                    <img class="img-responsive imgCustomer" src="{{customer.imageCustomer.url}}" alt="">
+                    <img class="img-responsive imgCustomer" src="{{customer.picture.url}}" alt="">
                 </div>
             </div>
             <div class="col-md-8">
@@ -35,7 +35,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a class="btn btn-warning col-md-1 pull-right" href="{% url 'edit_customer' id=customer.id %}">Edit</a>
+            <a class="btn btn-warning col-md-1 pull-right" href="{% url 'edit-customer' id=customer.id %}">Edit</a>
         </div>
     </div>
 
@@ -53,8 +53,8 @@
             {% for car in cars %}
             <tr>
                 <td>{{car.model}}</td>
-                <td class="text-center">{{car.yearCar}}</td>
-                <td class="text-center"><a href="{% url 'show_car' idcust=customer.id idcar=car.id %}"><img
+                <td class="text-center">{{car.year}}</td>
+                <td class="text-center"><a href="{% url 'show-car' idcust=customer.id idcar=car.id %}"><img
                         class="imgSel" src="{% static 'img/select.png' %}"></a></td>
             </tr>
             {% endfor %}
@@ -72,8 +72,8 @@
       {% endif %}
       </span>
         </div>
-        <a href="{% url 'list_customer' %}" class="col-sm-offset-10 btn btn-info col-md-1">Cancel</a>
-        <a href="{% url 'create_car' idcust=customer.id %}" class=" btn btn-success col-md-1">Create</a>
+        <a href="{% url 'list-customer' %}" class="col-sm-offset-10 btn btn-info col-md-1">Cancel</a>
+        <a href="{% url 'create-car' idcust=customer.id %}" class=" btn btn-success col-md-1">Create</a>
     </div>
 </div>
 {% endblock %}

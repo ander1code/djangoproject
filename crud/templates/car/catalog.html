@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -8,20 +8,20 @@
     </div>
     <div class="row">
          {% for car in cars %}
-                <a href="{% url 'show_car' idcust=car.customer_id idcar=car.id %}">
+                <a href="{% url 'show-car' idcust=car.customer_id idcar=car.id %}">
                     <div class="col-md-3 font-text div-col">
-                        <img class="img-responsive imgCatg img-catalog img-responsive" src="{{car.imageCar.url}}">
+                        <img class="img-responsive imgCatg img-catalog img-responsive" src="{{car.picture.url}}">
                         <div class="row">
                             <div class="col-md-6 text-left">
                                 <b>Model: </b>{{car.model}}
                             </div>
                             <div class="col-md-6">
-                                <b>Year: </b>{{car.yearCar}}
+                                <b>Year: </b>{{car.year}}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <b>Price: </b>{{car.marketVal}}
+                                <b>Price: </b>{{car.market_value}}
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% block content %}
 {% load static %}
 <div class="container">
@@ -37,7 +37,7 @@
                 <td class="text-center">{{customer.id}}</td>
                 <td>{{customer.name}}</td>
                 <td class="text-center">{{customer.birthday |date:"d/m/Y" }}</td>
-                <td class="text-center"><a href="{% url 'show_customer' id=customer.id %}"><img
+                <td class="text-center"><a href="{% url 'show-customer' id=customer.id %}"><img
                         src="{% static 'img/select.png' %}" class="imgSel"></a>
                 </td>
             </tr>
@@ -59,7 +59,7 @@
             </span>
         </div>
     </div>
-    <a href="{% url 'create_customer' %}" class="col-sm-offset-11 btn btn-success col-md-1">Create</a>
+    <a href="{% url 'create-customer' %}" class="col-sm-offset-11 btn btn-success col-md-1">Create</a>
     {% endblock %}
 </div>
 </div>

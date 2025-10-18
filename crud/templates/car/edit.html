@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% block content %}
 
 <div class="container">
@@ -26,18 +26,18 @@
                <h3>Car's data:</h3>
             </div>
             {% if form.errors %}
-            <div class="form-group divErrorCreate">
-               <div>
-                  <ol>
-                     <ul>{{form.model.errors}}</ul>
-                     <ul>{{form.plate.errors}}</ul>
-                     <ul>{{form.yearCar.errors}}</ul>
-                     <ul>{{form.marketVal.errors}}</ul>
-                     <ul>{{form.imageCar.errors}}</ul>
-                  </ol>
+               <div class="form-group divErrorCreate">
+                  <ul>
+                     {% for field, errors in form.errors.items %}
+                           {% for error in errors %}
+                              <li>
+                                 <strong>{{ field|capfirst }}:</strong> {{ error }}
+                              </li>
+                           {% endfor %}
+                     {% endfor %}
+                  </ul>
                </div>
-            </div>
-            {% endif %}    
+            {% endif %}
             <div class="form-group">
                <label for="model">Model</label>
                <input id="id_model" class="form-control car" value="{{form.model.value}}" maxlength="100" name="model" type="text" />
@@ -47,29 +47,31 @@
                <input id="id_plate" class="form-control car"  value="{{form.plate.value}}"  maxlength="7" name="plate" type="text" />
             </div>
             <div class="form-group">
-               <label for="yearCar">Year</label>
-               <input id="id_yearCar" class="form-control car"   value="{{form.yearCar.value}}" name="yearCar" type="text" />
+               <label for="year">Year</label>
+               <input id="id_year" class="form-control car"   value="{{form.year.value}}" name="year" type="text" />
             </div>
             <div class="form-group">
-               <label for="marketVal">Market's Value</label>
-               <input id="id_marketVal" class="form-control car currency"  value="{{form.marketVal.value}}"  name="marketVal" type="text" />
+               <label for="market_value">Market's Value</label>
+               <input id="id_market_value" class="form-control car currency"  value="{{form.market_value.value}}"  name="market_value" type="text" />
             </div>
             <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea cols="30" rows="3" id="id_description car"
+                    <textarea cols="30" rows="3" id="id_description"
                               class="form-control" maxlength="200" name="description" type="text">{{form.description.value}}</textarea>
             </div>
             <div class="form-group">
                <label>Current Image:</label>
-               <label><a href="/media/{{form.imageCar.value}}">{{form.imageCar.value}}</a></label>
+            </div>
+            <div class="form-group" align="right">
+               <img src="/media/{{form.picture.value}}" class="picture">
             </div>
             <div class="form-group">
-               <label for="imageCar">Image</label>
-               <input id="id_imageCar" class="form-control" name="imageCar" type="file" />
+               <label for="picture">Image</label>
+               <input id="id_picture" class="form-control" name="picture" type="file" />
             </div>
             <div class="form-group">
                <button type="button" class="col-sm-offset-6 btn btn-danger col-md-2" data-toggle="modal" data-target="#confirmDelete">Delete</button>
-               <a href="{% url 'list_customer' %}" class="btn btn-info col-md-2">Cancel</a>
+               <a href="{% url 'list-customer' %}" class="btn btn-info col-md-2">Cancel</a>
                <a href="#" class="btn btn-warning col-md-2" data-toggle="modal" data-target="#confirmEdit">Edit</a>
             </div>
       </div>
@@ -111,7 +113,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <a class="btn btn-danger" href="{% url 'delete_car' idcust=customer.id idcar=car.id %}">Yes</a>
+                        <a class="btn btn-danger" href="{% url 'delete-car' idcust=customer.id idcar=car.id %}">Yes</a>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% block content %}
 <div class="container">
     <form method="post" enctype="multipart/form-data">
@@ -27,17 +27,17 @@
                     <h3>Car's data:</h3>
                 </div>
                 {% if form.errors %}
-                <div class="form-group divErrorCreate">
-                    <div>
-                        <ol>
-                            <ul>{{form.model.errors}}</ul>
-                            <ul>{{form.plate.errors}}</ul>
-                            <ul>{{form.yearCar.errors}}</ul>
-                            <ul>{{form.marketVal.errors}}</ul>
-                            <ul>{{form.imageCar.errors}}</ul>
-                        </ol>
+                    <div class="form-group divErrorCreate">
+                        <ul>
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>
+                                        <strong>{{ field|capfirst }}:</strong> {{ error }}
+                                    </li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
                     </div>
-                </div>
                 {% endif %}
                 <div class="form-group">
                     <label for="model">Model</label>
@@ -50,28 +50,28 @@
                            name="plate" type="text"/>
                 </div>
                 <div class="form-group">
-                    <label for="yearCar">Year</label>
-                    <input id="id_yearCar" maxlength="4" class="form-control car" value="{{form.yearCar.value}}" name="yearCar"
+                    <label for="year">Year</label>
+                    <input id="id_yearr" maxlength="4" class="form-control car" value="{{form.year.value}}" name="year"
                            type="text"/>
                 </div>
                 <div class="form-group">
-                    <label for="marketVal">Market's Value</label>
-                    <input id="id_marketVal" class="form-control car currency" value="{{form.marketVal.value}}" name="marketVal"
+                    <label for="market_value">Market Value</label>
+                    <input id="id_market_value" class="form-control car currency" value="{{form.market_value.value}}" name="market_value"
                            type="text"/>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea cols="30" rows="3" id="id_description car"
+                    <textarea cols="30" rows="3" id="id_description"
                               class="form-control" maxlength="200" name="description" type="text">{{form.description.value}}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="imageCar">Image</label>
-                    <input id="id_imageCar" class="form-control car" value="{{form.imageCar.url}}" name="imageCar"
+                    <input id="id_picture" class="form-control car" value="{{form.picture.url}}" name="picture"
                            type="file"/>
                 </div>
                 <div class="form-group">
                     <a class="col-sm-offset-8 btn btn-info col-md-2"
-                       href="{% url 'show_customer' id=customer.id %}">Cancel</a>
+                       href="{% url 'show-customer' id=customer.id %}">Cancel</a>
                     <button type="submit" class="btn btn-success col-md-2">Create</button>
                 </div>
             </div>

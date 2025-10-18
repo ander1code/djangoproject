@@ -1,51 +1,132 @@
-# LIBRARIES
-
 import os
-
 from pathlib import Path
+from django.contrib import messages
 
+# ---------------------------------------------------------------------
+# BASE DIRECTORY
+# ---------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# ---------------------------------------------------------------------
 # SECURITY
-
+# ---------------------------------------------------------------------
 DEBUG = True
+ALLOWED_HOSTS = ['*']  # Em produção, defina hosts específicos
 
-ALLOWED_HOSTS = ['*']
+# create SECRET_KEY
+"""
+SECRET_KEY = (
+    ''
+)
+"""
 
-# SECRET_KEY = 'Use a secret to use.'
-
-
-
-# Application definition
-
+# ---------------------------------------------------------------------
+# APPLICATIONS
+# ---------------------------------------------------------------------
 INSTALLED_APPS = [
+    # Django Core
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crud'
+    'crud',
 ]
 
+# ---------------------------------------------------------------------
+# MIDDLEWARE
+# ---------------------------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise antes de CommonMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+# ---------------------------------------------------------------------
+# URLS & WSGI
+# ---------------------------------------------------------------------
 ROOT_URLCONF = 'djangoproject.urls'
+WSGI_APPLICATION = 'djangoproject.wsgi.application'
 
+# ---------------------------------------------------------------------
+# DATABASE
+# ---------------------------------------------------------------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# ---------------------------------------------------------------------
+# PASSWORD VALIDATION
+# ---------------------------------------------------------------------
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
+
+# ---------------------------------------------------------------------
+# INTERNATIONALIZATION
+# ---------------------------------------------------------------------
+LANGUAGE_CODE = 'pt-br'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = False
+USE_TZ = True
+
+# ---------------------------------------------------------------------
+# LOGIN & AUTH
+# ---------------------------------------------------------------------
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+# ---------------------------------------------------------------------
+# MESSAGES CONFIG
+# ---------------------------------------------------------------------
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+# ---------------------------------------------------------------------
+# FORMATS
+# ---------------------------------------------------------------------
+DATE_INPUT_FORMATS = ['%d/%m/%Y']
+
+# ---------------------------------------------------------------------
+# STATIC & MEDIA FILES
+# ---------------------------------------------------------------------
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'crud' / 'static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = ''
+
+
+# WhiteNoise — cache otimizado
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ---------------------------------------------------------------------
+# TEMPLATES
+# ---------------------------------------------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Pasta templates no root
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -57,81 +138,3 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'djangoproject.wsgi.application'
-
-# DATABASE
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'dbCrudCar.sqlite3',
-    }
-}
-
-# Password validation
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-
-
-# Internationalization
-
-LANGUAGE_CODE = "pt-br"
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = False
-
-USE_TZ = True
-
-
-# LOGIN
-
-from django.conf.global_settings import LOGIN_REDIRECT_URL
-
-
-# MESSAGE:
-
-from django.contrib import messages
-
-MESSAGE_TAGS = {
-    messages.DEBUG: 'alert-info' ,
-    messages.INFO: 'alert-info' ,
-    messages.SUCCESS: 'alert-success' ,
-    messages.WARNING: 'alert-warning' ,
-    messages.ERROR: 'alert-danger' ,
-}
-
-
-
-# DATA FORMATS:
-
-DATE_INPUT_FORMATS = ['%d/%m/%Y']
-
-
-
-# Static files (CSS, JavaScript, Images)
-
-STATIC_URL = '/static/'
-MEDIA_ROOT = 'media'
-MEDIA_URL = '/media/'
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'crud/static')
