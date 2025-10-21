@@ -12,14 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ---------------------------------------------------------------------
 DEBUG = True
-ALLOWED_HOSTS = ['*']  # Em produção, defina hosts específicos
+ALLOWED_HOSTS = ['*'] 
 
 # create SECRET_KEY
-"""
-SECRET_KEY = (
-    ''
-)
-"""
+# SECRET_KEY = 
+
 
 # ---------------------------------------------------------------------
 # APPLICATIONS
@@ -112,10 +109,8 @@ DATE_INPUT_FORMATS = ['%d/%m/%Y']
 # ---------------------------------------------------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'crud' / 'static'
-
 MEDIA_URL = '/media/'
-MEDIA_ROOT = ''
-
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 # WhiteNoise — cache otimizado
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -126,7 +121,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Pasta templates no root
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

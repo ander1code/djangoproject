@@ -1,0 +1,33 @@
+{% if form.errors %}
+<div id="errorDiv" class="form-group divErrorCreate" style="position: relative; border: 1px solid red; padding: 10px; margin-bottom: 10px;">
+    <button id="hideErrorBtn" style="position: absolute; top: 5px; right: 5px;">×</button>
+    <ul>
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li>
+                    <strong>{{ field|capfirst }}:</strong> {{ error }}
+                </li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    // Função para esconder o div de erros
+    function hideErrorDiv() {
+        const errorDiv = document.getElementById('errorDiv');
+        if (errorDiv) {
+            errorDiv.style.display = 'none';
+        }
+    }
+
+    // Esconder ao clicar no botão
+    document.getElementById('hideErrorBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        hideErrorDiv();
+    });
+
+    // Esconder automaticamente após 5 segundos
+    setTimeout(hideErrorDiv, 5000);
+</script>
+{% endif %}

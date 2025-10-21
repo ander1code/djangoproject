@@ -1,7 +1,3 @@
-from datetime import datetime
-from decimal import Decimal
-
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -9,93 +5,16 @@ from django.contrib import messages
 # Authentication
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 
+# Custom
 from .models import Customer, Car
 from .forms import CustomerForm, CarForm, LoginForm
-
-# -----
-
-def save_object_customer(form, instance=None):
-    if instance:
-        customer = instance
-    else:
-        customer = Customer()
-
-    customer.name = form.cleaned_data['name']
-    customer.email = form.cleaned_data['email']
-    customer.birthday = form.cleaned_data['birthday']
-    customer.gender = form.cleaned_data['gender']
-    customer.salary = form.cleaned_data['salary']
-
-    if form.cleaned_data.get('picture'):
-        customer.picture = form.cleaned_data['picture']
-
-    customer.save()
-
-def save_object_car(form, customer, car=None):
-    data = form.cleaned_data
-
-    if car is None:
-        # Criar novo
-        car = Car.objects.create(
-            model=data['model'],
-            year=data['year'],
-            market_value=data['market_value'],
-            plate=data['plate'],
-            description=data['description'],
-            picture=data['picture'],
-            customer=customer
-        )
-    else:
-        # Atualizar existente
-        car.model = data['model']
-        car.year = data['year']
-        car.market_value = data['market_value']
-        car.plate = data['plate']
-        car.description = data['description']
-
-        picture = data.get('picture')
-        if picture:
-            car.picture = picture  # atualiza só se tiver foto nova
-
-        car.customer = customer
-        car.save()
-
-    return car
-
-def get_data_from_customer(customer):
-    initial_data = {
-        'name': customer.name,
-        'email': customer.email,
-        'salary': str(customer.salary).replace(",","."),
-        'birthday': customer.birthday.strftime("%d/%m/%Y"),
-        'gender': customer.gender,
-        'picture': customer.picture,
-    }
-    return initial_data
-
-def get_data_from_car(car):
-    initial_data = {
-        'id': car.pk or None,
-        'model': car.model,
-        'plate': car.plate,
-        'market_value': str(car.market_value).replace(",","."),
-        'year': car.year,
-        'description': car.description,
-        'picture': car.picture,
-    }
-    return initial_data
-   
-# -----
+from .utils.utils import UtilsClass
 
 def home(request):
     return render(request, 'home/home.html')
 
-def show_car(request, idcust, idcar):
-    customer = get_object_or_404(Customer, id=idcust)
-    car = get_object_or_404(Car, id=idcar)
-    return render(request, 'car/show.html', {'customer': customer, 'car': car})
+# ------------------------- LOGIN -------------------------
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -137,7 +56,7 @@ def catalog(request):
 def list_customer(request):
     if request.method == 'POST':
         p_search = request.POST['search'] + '%'
-        customers = Customer.objects.extra(where=["name LIKE %s"], params=[p_search])
+        customers = Customer.objects.filter(name__istartswith=p_search)
     else:
         customers = Customer.objects.all()
 
@@ -157,28 +76,26 @@ def create_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES)
         if form.is_valid():
-            save_object_customer(form)
+            UtilsClass().save_object_customer(form)
             messages.success(request, 'Customer registered successfully.')
             return redirect('list-customer')
-        return render(request, 'customer/create.html', {'form': form})
+        return render(request, 'customer/form.html', {'form': form, 'edition': False})
     else:
         form = CustomerForm()
-    return render(request, 'customer/create.html', {'form': form})
+        return render(request, 'customer/form.html', {'form': form, 'edition': False})
 
 @login_required(login_url="/login/")
 def edit_customer(request, id):
     customer = get_object_or_404(Customer, id=id)
-
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES, instance=customer)
         if form.is_valid():
-            save_object_customer(form, instance=customer)
+            UtilsClass().save_object_customer(form, instance=customer)
             messages.success(request, 'Customer edited successfully.')
             return redirect('show-customer', id=id)
     else:
-        form = CustomerForm(initial=get_data_from_customer(customer), instance=customer)
-
-    return render(request, 'customer/edit.html', {'form': form, 'customer': customer})
+        form = CustomerForm(initial=UtilsClass().get_data_from_customer(customer))
+    return render(request, 'customer/form.html', {'form': form, 'customer': customer, 'edition': True})
 
 @login_required(login_url="/login/")
 def delete_customer_confirmation(request, id):
@@ -215,52 +132,55 @@ def show_customer(request, id):
 # ------------------------- CAR -------------------------
 
 @login_required(login_url="/login/")
-def create_car(request, idcust):
-    customer = get_object_or_404(Customer, id=idcust)
+def create_car(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+
     if request.method == 'POST':
         form = CarForm(request.POST, request.FILES)
         if form.is_valid():
-            save_object_car(form, customer)
+            UtilsClass().save_object_car(form, customer)
             messages.success(request, 'Car registered successfully.')
-            return redirect('show-customer', idcust)
-        return render(request, 'car/create.html', {'form': form, 'customer': customer})
+            return redirect('show-customer', customer_id)
+        return render(request, 'car/form.html', {'form': form, 'edition': False, 'customer': customer})
     else:
-        form = CarForm(initial={'model': '', 'market_value': Decimal('0.00'), 'description': ''})
-    return render(request, 'car/create.html', {'form': form, 'customer': customer})
+        form = CarForm()
+    return render(request, 'car/form.html', {'form': form, 'edition': False, 'customer': customer})
+
+def show_car(request, customer_id, car_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    car = get_object_or_404(Car, id=car_id)
+    return render(request, 'car/show.html', {'customer': customer, 'car': car})
 
 @login_required(login_url="/login/")
-def edit_car(request, idcust, idcar):
-    car = get_object_or_404(Car, id=idcar)
-    customer = get_object_or_404(Customer, id=idcust)
+def edit_car(request, customer_id, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    customer = get_object_or_404(Customer, id=customer_id)
 
     if request.method == 'POST':
         form = CarForm(request.POST, request.FILES, instance=car)
         if form.is_valid():
-            save_object_car(form, customer, car=car)
+            UtilsClass().save_object_car(form, customer, car=car)
             messages.success(request, 'Car edited successfully.')
-            return redirect('show-customer', idcust)
+            return redirect('show-car', customer_id, car_id)
     else:
-        initial_data = get_data_from_car(car) 
+        initial_data = UtilsClass().get_data_from_car(car)
         form = CarForm(initial=initial_data, instance=car)
 
-    return render(request, 'car/edit.html', {
+    return render(request, 'car/form.html', {
         'form': form,
+        'edition': True,
         'customer': customer,
         'car': car
     })
 
-@login_required(login_url="/login/")
-def delete_car_confirmation(request, idcust, idcar):
-    car = get_object_or_404(Car, id=idcar)
-    customer = get_object_or_404(Customer, id=idcust)
-    return render(request, 'car/confirmation.html', {'car': car, 'customer': customer})
+
 
 @login_required(login_url="/login/")
-def delete_car(request, idcust, idcar):
-    car = get_object_or_404(Car, id=idcar)
+def delete_car(request, customer_id, car_id):
+    car = get_object_or_404(Car, id=car_id)
     car.delete()
     messages.success(request, 'Car deleted successfully.')
-    return redirect('show-customer', car.customer_id)
+    return redirect('show-customer', customer_id)
 
 # ------------------------- LOGOUT -------------------------
 
@@ -269,5 +189,3 @@ def logout_view(request):
     auth_logout(request)
     messages.success(request, 'Logoff done successfully.')
     return redirect('home')
-
-

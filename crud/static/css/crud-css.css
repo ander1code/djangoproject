@@ -97,3 +97,18 @@
 .picture{
     border:2px solid black; border-radius:3px; width:200px; width:200px;
 }
+
+.readonly-select {
+    pointer-events: none; 
+    background-color: #e9ecef;
+    color: #6c757d; 
+    cursor: not-allowed; 
+}
+
+.readonly-field {
+    pointer-events: none;        
+    background-color: #e9ecef;   
+    color: #6c757d;             
+    cursor: not-allowed;        
+  }
+  

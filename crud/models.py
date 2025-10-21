@@ -108,10 +108,10 @@ class Customer(models.Model):
 
     picture = models.ImageField(
         "Picture",
-        upload_to='media',
+        upload_to='customers',
         blank=False,
         null=False,
-        default='customer.png',
+        default='customers/noimage.jpg',
         error_messages={
             'blank': 'Picture is empty.',
             'null': 'Picture is null.',
@@ -124,6 +124,7 @@ class Customer(models.Model):
 
     class Meta:
         db_table = 'customer'
+        ordering=['-id']
         managed = True
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
@@ -228,8 +229,8 @@ class Car(models.Model):
 
     picture = models.ImageField(
         "Picture",
-        upload_to='media',
-        default='car.png',
+        upload_to='cars',
+        default='cars/noimage.jpg',
         blank=False,
         null=False,
         error_messages={
@@ -255,6 +256,7 @@ class Car(models.Model):
 
     class Meta:
         db_table = 'car'
+        ordering=['-id']
         managed = True
         verbose_name = 'Car'
         verbose_name_plural = 'Cars'

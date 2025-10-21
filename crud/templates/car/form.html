@@ -1,0 +1,123 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <h1>Car</h1>
+                </div>
+                <div class="form-group">
+                    <h3>Customer's data:</h3>
+                    <hr>
+                </div>
+                <div class="form-group">
+                    <label for="id_customer">ID</label>
+                    <input type="text" id="id_customer" class="form-control customer" name="customer"
+                           value="{{customer.id}}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="plate">Name</label>
+                    <input type="text" id="id_name" class="form-control customer" name="name" value="{{customer.name}}"
+                           readonly>
+                </div>
+                <div class="form-group">
+                    <hr>
+                    <h3>Car's data:</h3>
+                </div>
+                <div class="form-group">
+                    {% include 'partials/errors.html' %}
+                 </div>
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    {{form.model}}
+                </div>
+                <div class="form-group">
+                    <label for="plate">Plate</label>
+                    {{form.plate}}
+                </div>
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    {{form.year}}
+                </div>
+                <div class="form-group">
+                    <label for="market_value">Market Value</label>
+                    {{form.market_value}}
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    {{form.description}}
+                </div>
+                
+                {% if edition %}
+                    <div id="confirmEdit" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Question</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to edit Customer?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-warning">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div id="confirmDelete" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Question</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to delete Customer?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                    <a class="btn btn-danger" href="{% url 'delete-car' customer_id=customer.id car_id=car.id %}">Yes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Picture:</label>
+                    </div>
+                    <div class="form-group" align="right">
+                            <img src="/media/{{car.picture}}" class="picture">
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Picture</label>
+                        <input id="id_picture" class="form-control car" value="{{form.picture.url}}" name="picture"
+                                type="file"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="col-sm-offset-6 btn btn-danger col-md-2" data-toggle="modal" data-target="#confirmDelete">Delete</button>
+                        <a href="{% url 'list-customer' %}" class="btn btn-info col-md-2">Cancel</a>
+                        <a href="#" class="btn btn-warning col-md-2" data-toggle="modal" data-target="#confirmEdit">Edit</a>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label for="picture">Picture</label>
+                        {{form.picture}}
+                    </div>
+                    <div class="form-group">
+                        <a class="col-sm-offset-8 btn btn-info col-md-2"
+                        href="{% url 'show-customer' id=customer.id %}">Cancel</a>
+                        <button type="submit" class="btn btn-success col-md-2">Create</button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <script>
+        </script>
+    </form>
+</div>
+{% endblock %}

@@ -54,7 +54,7 @@
             <tr>
                 <td>{{car.model}}</td>
                 <td class="text-center">{{car.year}}</td>
-                <td class="text-center"><a href="{% url 'show-car' idcust=customer.id idcar=car.id %}"><img
+                <td class="text-center"><a href="{% url 'show-car' customer_id=customer.id car_id=car.id %}"><img
                         class="imgSel" src="{% static 'img/select.png' %}"></a></td>
             </tr>
             {% endfor %}
@@ -73,7 +73,7 @@
       </span>
         </div>
         <a href="{% url 'list-customer' %}" class="col-sm-offset-10 btn btn-info col-md-1">Cancel</a>
-        <a href="{% url 'create-car' idcust=customer.id %}" class=" btn btn-success col-md-1">Create</a>
+        <a href="{% url 'create-car' customer_id=customer.id %}" class=" btn btn-success col-md-1">Create</a>
     </div>
 </div>
 {% endblock %}

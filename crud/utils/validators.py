@@ -34,17 +34,6 @@ def validate_email(value):
         raise ValidationError("E-mail already registered.")
     return value
 
-"""
-def validate_decimal_value(label):
-    def validate(value):
-        if value is None:
-            raise ValidationError(f"{label.capitalize()} is empty.")
-        if value < Decimal('0.00') or value > Decimal('999999999.99'):
-            raise ValidationError(f"Invalid {label.lower()}.")
-        return value 
-    return validate
-"""
-
 def validate_salary(value):
     if value is None:
         raise ValidationError(f"Salary is empty.")

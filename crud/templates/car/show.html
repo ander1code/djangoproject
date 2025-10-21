@@ -11,8 +11,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <a href="{{car.picture.url}}"><img class="img-responsive imgCustomer" src="{{car.picture.url}}" alt=""></a>
-                <img src="" alt=""><br>
+                <a href="{{car.picture.url}}"><img class="img-responsive imgCustomer" src="{{car.picture.url}}" alt=""></a><br>
             </div>
         </div>
         <div class="col-md-3">
@@ -31,7 +30,7 @@
                 <label class="col-sm-offset-1" for="plate">Plate: &nbsp</label>{{car.plate}}
             </div>
             <div class="row">
-                <label class="col-sm-offset-1" for="yearCar">Market's Value: &nbsp</label>{{car.year}}
+                <label class="col-sm-offset-1" for="year">Market's Value: &nbsp</label>{{car.year}}
             </div>
             <div class="row">
                 <label class="col-sm-offset-1" for="birthday">Description: &nbsp</label>{{car.description}}
@@ -57,7 +56,7 @@
     {% if user.is_authenticated %}
     <div class="row col-md-12">
         <a class="btn btn-warning col-md-1 pull-right"
-           href="{% url 'edit-car' idcust=customer.id  idcar=car.id %}">EDIT</a>
+           href="{% url 'edit-car' customer_id=customer.id  car_id=car.id %}">EDIT</a>
     </div>
     {%endif%}
 {% endblock %}

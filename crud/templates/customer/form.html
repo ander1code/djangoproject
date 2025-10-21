@@ -1,0 +1,111 @@
+{% extends 'index.html' %}
+{% block content %}
+   <div class="container">
+   <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+               <div class="form-group">
+                  <h1>Customer</h1>
+               </div>
+               <div class="form-group">
+                  {% include 'partials/errors.html' %}
+               </div>
+               <div class="form-group">
+                  <label for="name">Name</label>
+                  {{form.name}}
+               </div>
+               <div class="form-group">
+                  <label for="email">Email</label>
+                  {{form.email}}
+               </div>
+               <div class="form-group">
+                  <label for="salary">Salary</label>
+                  {{form.salary}}
+               </div>
+               <div class="form-group">
+               <label for="birthday">Birthday</label>
+               <div class="input-group date">
+                  {{form.birthday}}
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                  </div>
+               </div>
+               <div class="form-group">
+               <label for="gender">Gender</label>
+               {{form.gender}}
+               </div>
+            
+               {% if edition %}
+                  <!-- confirmations -->
+                     <div id="confirmEdit" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Question</h4>
+                              </div>
+                              <div class="modal-body">
+                                    <p>Do you want to edit Customer?</p>
+                              </div>
+                              <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-warning">Yes</button>
+                              </div>
+                           </div>
+                        </div>
+                  </div>
+                  <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Question</h4>
+                              </div>
+                              <div class="modal-body">
+                                    <p>Do you want to delete Customer?</p>
+                              </div>
+                              <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                    <a class="btn btn-danger" href="{% url 'delete-customer' id=customer.id %}">Yes</a>
+                              </div>
+                           </div>
+                        </div>
+                  </div>
+                  <!-- confirmations -->
+
+                  <div class="form-group">
+                     <label>Current Picture:</label>
+                  </div>
+                  <div class="form-group" align="right">
+                     <img src="/media/{{form.picture.value}}" class="picture">
+                  </div>
+                  <div class="form-group">
+                     <label for="picture">Picture</label>
+                     {{form.picture}}
+                  </div>
+                  <div class="form-group">
+                     <button type="button" class="col-sm-offset-6 btn btn-danger col-md-2" data-toggle="modal"
+                           data-target="#myModal">Delete
+                     </button>
+                     <a href="{% url 'list-customer' %}"
+                        class="btn btn-info col-md-2">Cancel</a>
+                     <a href="#" class="btn btn-warning col-md-2" data-toggle="modal" data-target="#confirmEdit">Edit</a>
+                  </div>
+               {% else %}
+                  <div class="form-group">
+                     <label for="picture">Picture</label>
+                     {{form.picture}}
+                  </div>
+                  <div class="form-group">
+                     <a href="{% url 'list-customer' %}" class="col-sm-offset-8 btn btn-info col-md-2">Cancel</a>    
+                     <button type="submit" class="btn btn-success col-md-2">Create</button>
+                  </div>
+               {% endif %}
+         
+            </div>
+      </div>
+   </form>
+{% endblock %}
+</div>
+
+

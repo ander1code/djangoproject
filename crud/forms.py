@@ -32,7 +32,7 @@ class LoginForm(forms.Form):
         error_messages={'required': 'Username is empty.'},
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Username'
+            'placeholder': 'Username',
         })
     )
     password = forms.CharField(
@@ -40,7 +40,7 @@ class LoginForm(forms.Form):
         error_messages={'required': 'Password is empty.'},
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Password'
+            'placeholder': 'Password',
         })
     )
 
@@ -78,7 +78,12 @@ class CustomerForm(forms.Form):
     name = forms.CharField(
         max_length=75,
         required=True,
-        error_messages={'required': 'Name is empty.'}
+        error_messages={
+            'required': 'Name is empty.'
+        },
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     email = forms.EmailField(
@@ -87,7 +92,10 @@ class CustomerForm(forms.Form):
         error_messages={
             'required': 'E-mail is empty.',
             'invalid': 'Invalid e-mail.',
-        }
+        },
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     salary = forms.DecimalField(
@@ -101,31 +109,46 @@ class CustomerForm(forms.Form):
         error_messages={
             'required': 'Salary is empty.',
             'invalid': 'Invalid salary.'
-        }
+        },
+        widget=forms.TextInput(attrs={
+            'class': 'form-control currency',
+            'value':'0.00',
+        })
     )
 
     birthday = forms.DateField(
         required=True,
-        widget=forms.DateInput(attrs={'type': 'date'}),
+        widget=forms.DateInput(attrs={
+            'value': '{{form.birthday.value}}', 
+            'class': 'form-control date-create', 
+            'name':'birthday', 
+            'type':"text"
+        }),
         initial=date.today().replace(year=date.today().year - 18),
         error_messages={
             'required': 'Birthday is empty.',
             'invalid': 'Invalid birthday.',
-        }
+        },
     )
 
     gender = forms.ChoiceField(
         choices=Customer.GENDER,
         required=True,
-        error_messages={'required': 'Gender is empty.'}
+        error_messages={'required': 'Gender is empty.'},
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+        })
     )
-
+    
     picture = forms.ImageField(
         required=True,
         error_messages={
             'required': 'Picture is empty.',
-            'invalid': 'Invalid picture file.'
-        }
+            'invalid': 'Invalid picture file.',
+        },
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     def clean_name(self):
@@ -196,8 +219,13 @@ class CarForm(forms.Form):
         if self.initial.get('picture'):
             self.fields['picture'].required = False
 
+
     model = forms.CharField(
-        error_messages={'required': 'Model is empty.'}
+        max_length=45,
+        error_messages={'required': 'Model is empty.'},
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     plate = forms.CharField(
@@ -205,14 +233,20 @@ class CarForm(forms.Form):
         error_messages={
             'invalid': 'Invalid plate. (EX: ABC-1234 or ABC1D23)',
             'required': 'Plate is empty.'
-        }
+        },
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     year = forms.IntegerField(
         error_messages={
             'invalid': "Invalid car's year.",
             'required': 'Year is empty.'
-        }
+        },
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     market_value = forms.DecimalField(
@@ -221,15 +255,32 @@ class CarForm(forms.Form):
         error_messages={
             'required': 'Market Value is empty.',
             'invalid': 'Invalid Market value.'
-        }
+        },
+        widget=forms.TextInput(attrs={
+            'class': 'form-control currency',
+            'value':'0.00',
+        })
     )
 
     picture = forms.ImageField(
-        error_messages={'required': 'Picture is empty.'}
+        required=True,
+        error_messages={
+            'required': 'Picture is empty.',
+            'invalid': 'Invalid picture file.',
+        },
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'form-control',
+        })
     )
 
     description = forms.CharField(
-        error_messages={'required': 'Description is empty.'}
+        max_length=200,
+        error_messages={'required': 'Description is empty.'},
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'cols':'30',
+            'rows':'3'
+        })
     )
 
     def clean_plate(self):
